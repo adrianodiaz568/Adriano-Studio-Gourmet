@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adriano Studio Gourmet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Dynalight&family=Montserrat:wght@700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background-color: #70cbb0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- PANTALLA DE MANTENIMIENTO --- */
+        #maintenance-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #70cbb0;
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            color: #005a43;
+            pointer-events: none;
+        }
+
+        #maintenance-overlay h1 {
+            font-family: 'Shrikhand', cursive;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+        }
+
+        #maintenance-overlay p {
+            font-size: 1.1rem;
+            max-width: 500px;
+            line-height: 1.5;
+            color: #003d2d;
+        }
+
+        /* --- HEADER (AJUSTADO PARA BAJAR EL LOGO) --- */
+        header {
+            height: 110px;
+            background-color: #70cbb0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px 0 40px; /* Padding superior para separar del borde de la pantalla */
+            flex-shrink: 0;
+        }
+
+        .logo-box {
+            background-color: #005a43;
+            border-radius: 50px;
+            padding: 8px 25px 8px 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* LOGO CENTRADO Y CON ESPACIO CORRECTO */
+        .badge-sun-logo {
+            width: 48px;
+            height: 48px;
+            background-color: #102a36;
+            border-radius: 50%;
+            border: none;
+            flex-shrink: 0;
+            background-image: url('Logo.jpg');
+            background-size: 220%;
+            background-position: 50% 20%;
+            background-repeat: no-repeat;
+        }
+
+        .badge-sun-logo .inner-white,
+        .badge-sun-logo img {
+            display: none;
+        }
+
+        .logo-text {
+            color: #ffffff;
+            font-family: 'Shrikhand', cursive;
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- NAV ANIMADO --- */
+        nav {
+            background-color: #e2ce92;
+            border-radius: 30px;
+            padding: 4px;
+            display: flex;
+            position: relative;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 0.9rem;
+            padding: 8px 24px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
+            transition: color 0.3s ease;
+        }
+
+        .nav-indicator {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            height: calc(100% - 8px);
+            background-color: #cc9f28;
+            border-bottom: 3px solid #a37c17;
+            border-radius: 20px;
+            z-index: 1;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        /* --- MAIN SECTION --- */
+        main {
+            flex: 1;
+            background-color: #e5f7f1;
+            padding: 20px 40px;
+            position: relative;
+            min-height: calc(100vh - 195px);
+            background-image: 
+                radial-gradient(ellipse at 65% 55%, #f2f7bd 0%, #aee1d3 45%, transparent 75%),
+                radial-gradient(circle at 80% 20%, #d8f3ea 0%, transparent 40%);
+        }
+
+        .page-view {
+            width: 100%;
+            min-height: 100%;
+            display: none;
+            grid-template-columns: 35% 65%;
+            align-items: center;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .page-view.active {
+            display: grid;
+        }
+
+        .text-card {
+            background: #ffffff;
+            padding: 45px 35px;
+            border-radius: 50% / 38%;
+            box-shadow: 10px 15px 25px rgba(0, 0, 0, 0.12), 2px 4px 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .title-main {
+            font-family: 'Shrikhand', cursive;
+            font-size: 2.1rem;
+            line-height: 1.15;
+            margin-bottom: 14px;
+        }
+
+        .title-main .green { color: #005a43; }
+        .title-main .yellow { color: #ebbf38; }
+
+        .text-card p {
+            font-size: 0.85rem;
+            color: #333333;
+            font-weight: 600;
+            line-height: 1.4;
+            max-width: 88%;
+            margin: 0 auto;
+        }
+
+        /* GALERÍA DE IMÁGENES INICIO */
+        .food-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+        }
+
+        .food-item {
+            position: absolute;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #ffffff;
+            box-shadow: 0px 8px 18px rgba(0,0,0,0.18);
+        }
+
+        .crop-pie      { width: 160px; height: 160px; top: 4%;  left: 32%; z-index: 5; }
+        .crop-tiramisu { width: 160px; height: 160px; top: 30%; left: 10%; z-index: 5; }
+        .crop-flan     { width: 170px; height: 170px; top: 16%; left: 52%; z-index: 5; }
+        .crop-torta    { width: 220px; height: 220px; bottom: 2%; left: 29%; z-index: 6; }
+        .crop-macarons { width: 130px; height: 130px; bottom: 6%; left: 3%;  z-index: 5; }
+        .crop-brownie  { width: 165px; height: 165px; bottom: 8%; right: 14%; z-index: 5; }
+
+        .firulai-icon {
+            position: absolute;
+            object-fit: contain;
+            z-index: 2;
+            pointer-events: none;
+            mix-blend-mode: multiply;
+            opacity: 0.85;
+        }
+
+        .f-1  { width: 95px;  top: 1%;   left: 24%; transform: rotate(-10deg); }
+        .f-2  { width: 110px; top: 2%;   left: 48%; transform: rotate(15deg); }
+        .f-3  { width: 85px;  top: 10%;  left: 67%; transform: rotate(-20deg); }
+        .f-4  { width: 105px; top: 20%;  left: 3%;  transform: rotate(30deg); }
+        .f-5  { width: 120px; top: 24%;  left: 27%; transform: rotate(-5deg); }
+        .f-6  { width: 100px; top: 35%;  left: 44%; transform: rotate(25deg); }
+        .f-7  { width: 130px; top: 38%;  left: 69%; transform: rotate(-15deg); }
+        .f-8  { width: 90px;  top: 50%;  left: 1%;  transform: rotate(12deg); }
+        .f-9  { width: 115px; top: 52%;  left: 20%; transform: rotate(-30deg); }
+        .f-10 { width: 125px; top: 55%;  left: 56%; transform: rotate(20deg); }
+        .f-11 { width: 95px;  top: 58%;  left: 82%; transform: rotate(-10deg); }
+        .f-12 { width: 110px; bottom: 20%; left: 14%; transform: rotate(18deg); }
+        .f-13 { width: 100px; bottom: 18%; left: 50%; transform: rotate(-25deg); }
+        .f-14 { width: 135px; bottom: 22%; right: 8%;  transform: rotate(30deg); }
+        .f-15 { width: 90px;  bottom: 2%;  left: 0%;   transform: rotate(-12deg); }
+        .f-16 { width: 115px; bottom: 1%;  left: 21%;  transform: rotate(15deg); }
+        .f-17 { width: 105px; bottom: 2%;  left: 58%;  transform: rotate(-20deg); }
+        .f-18 { width: 95px;  bottom: 4%;  right: 22%; transform: rotate(10deg); }
+        .f-19 { width: 120px; bottom: 1%;  right: 2%;  transform: rotate(-15deg); }
+        .f-20 { width: 85px;  top: 14%;  right: 8%;  transform: rotate(35deg); }
+
+        .crop-badge-main {
+            position: absolute;
+            right: 4%;
+            top: 12%;
+            width: 165px;
+            height: 165px;
+            z-index: 5;
+            border-radius: 50%;
+            border: 4px solid #ffffff;
+            box-shadow: 0px 8px 18px rgba(0,0,0,0.18);
+            overflow: hidden;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .crop-badge-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* SECCIÓN POSTRES */
+        .postres-container {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .postres-title {
+            font-family: 'Shrikhand', cursive;
+            color: #005a43;
+            font-size: 2.5rem;
+        }
+
+        .postres-grid {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .postre-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 210px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .postre-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.15);
+        }
+
+        .postre-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 12px;
+        }
+
+        .postre-card h3 {
+            color: #005a43;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .price-badge-small {
+            background-color: #005a43;
+            color: #ffffff;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-block;
+        }
+
+        /* --- MODAL DE DETALLE / PEDIDO --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(3px);
+        }
+
+        .modal-card {
+            background: #ffffff;
+            width: 90%;
+            max-width: 520px;
+            border-radius: 25px;
+            padding: 25px 30px;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.6rem;
+            color: #888;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .close-modal:hover { color: #005a43; }
+
+        .modal-header-info {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-header-info img {
+            width: 110px;
+            height: 110px;
+            border-radius: 15px;
+            object-fit: cover;
+        }
+
+        .modal-title-area h2 {
+            font-family: 'Shrikhand', cursive;
+            color: #005a43;
+            font-size: 1.5rem;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .price-badge-green {
+            background-color: #005a43;
+            color: #ffffff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: inline-block;
+        }
+
+        .modal-description {
+            font-size: 0.88rem;
+            color: #444;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .delivery-notice-box {
+            background-color: #e5f7f1;
+            border-left: 4px solid #005a43;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: #005a43;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            position: relative;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #005a43;
+        }
+
+        .form-group input, .form-group select {
+            padding: 9px 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #005a43;
+        }
+
+        .search-location-wrapper {
+            position: relative;
+        }
+
+        .location-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            max-height: 160px;
+            overflow-y: auto;
+            z-index: 50;
+            display: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .location-suggestion-item {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            color: #333;
+        }
+
+        .location-suggestion-item:hover {
+            background-color: #e5f7f1;
+            color: #005a43;
+            font-weight: 600;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .qty-btn {
+            background: #e2ce92;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: #005a43;
+        }
+
+        .qty-btn:hover { background: #cc9f28; color: #fff; }
+
+        .total-summary {
+            margin-top: 10px;
+            background: #f8f8f8;
+            padding: 12px 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            color: #005a43;
+            font-size: 1rem;
+        }
+
+        .btn-confirm-order {
+            background-color: #005a43;
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-confirm-order:hover { background-color: #003d2d; }
+
+        #paymentSelectionSection {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 10px;
+            border-top: 2px dashed #005a43;
+            padding-top: 15px;
+        }
+
+        .payment-options-grid {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .payment-card-option {
+            flex: 1;
+            border: 2px solid #ccc;
+            border-radius: 15px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #fafafa;
+        }
+
+        .payment-card-option.selected {
+            border-color: #005a43;
+            background: #e5f7f1;
+        }
+
+        .payment-card-option h4 {
+            color: #005a43;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .qr-display-box {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 10px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+        }
+
+        .qr-display-box img {
+            width: 160px;
+            height: 160px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background: #fff;
+        }
+
+        .qr-display-box p {
+            font-size: 0.85rem;
+            color: #333;
+        }
+
+        .screenshot-instruction-box {
+            background-color: #fff9e6;
+            border: 1px dashed #cc9f28;
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #7a5d00;
+            font-size: 0.82rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .screenshot-instruction-box i {
+            font-size: 1.2rem;
+            color: #cc9f28;
+            flex-shrink: 0;
+        }
+
+        .top-left-container {
+            grid-column: 1 / -1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 10px 0;
+        }
+
+        .section-title-left {
+            font-family: 'Shrikhand', cursive;
+            color: #005a43;
+            font-size: 2.3rem;
+            margin-bottom: 15px;
+        }
+
+        .reviews-wrapper {
+            width: 100%;
+            max-width: 850px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .review-form-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+            border: 2px solid #70cbb0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .review-form-card h3 {
+            color: #005a43;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 6px;
+            font-size: 1.4rem;
+            color: #ddd;
+            cursor: pointer;
+        }
+
+        .rating-stars i.active { color: #ffcc00; }
+
+        .review-inputs { display: flex; gap: 10px; }
+
+        .review-inputs input[type="text"] {
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            width: 40%;
+        }
+
+        .review-textarea {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+            padding: 10px 15px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            resize: none;
+        }
+
+        .review-textarea:focus, .review-inputs input:focus {
+            outline: none;
+            border-color: #005a43;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-upload-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #e2ce92;
+            color: #005a43;
+            padding: 8px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: 0.2s ease;
+        }
+
+        .file-upload-btn:hover {
+            background-color: #cc9f28;
+            color: #fff;
+        }
+
+        .file-upload-btn input { display: none; }
+
+        .btn-submit-review {
+            background-color: #005a43;
+            color: #ffffff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .btn-submit-review:hover { background-color: #003d2d; }
+
+        .file-name-preview {
+            font-size: 0.8rem;
+            color: #555;
+            margin-left: 10px;
+        }
+
+        .reviews-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .review-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 18px 22px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #70cbb0;
+            color: #005a43;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .user-name-date h4 {
+            font-size: 0.95rem;
+            color: #005a43;
+            font-weight: 700;
+        }
+
+        .user-name-date span {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .review-stars {
+            color: #ffcc00;
+            font-size: 0.9rem;
+        }
+
+        .review-body {
+            font-size: 0.9rem;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .review-photo {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-top: 5px;
+            border: 2px solid #e5f7f1;
+        }
+
+        .info-content {
+            width: 100%;
+            max-width: 900px;
+            color: #1a3c34;
+            padding-bottom: 20px;
+        }
+
+        .info-block { margin-bottom: 20px; }
+
+        .info-block h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: #005a43;
+            margin-bottom: 8px;
+        }
+
+        .info-block ul {
+            list-style: none;
+            padding-left: 5px;
+        }
+
+        .info-block li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 8px;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            color: #2c443e;
+        }
+
+        .info-block li::before {
+            content: "○";
+            position: absolute;
+            left: 5px;
+            top: -1px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #005a43;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            height: 85px;
+            background-color: #70cbb0;
+            display: flex;
+            align-items: center;
+            padding: 0 40px 10px 40px;
+            z-index: 20;
+            flex-shrink: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        footer.hidden { display: none; }
+
+        .footer-card {
+            width: 100%;
+            background-color: #ffffff;
+            border: 3px solid #70cbb0;
+            outline: 3px solid #ffffff;
+            border-radius: 40px;
+            padding: 8px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .social-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .social-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #005a43;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+        }
+
+        .social-item i { font-size: 1.5rem; }
+
+        .slogan-text {
+            font-family: 'Dynalight', cursive;
+            font-size: 1.8rem;
+            color: #005a43;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- OVERLAY DE MANTENIMIENTO -->
+    <div id="maintenance-overlay">
+        <h1>¡Tienda pausada por hoy! 🍰</h1>
+        <p>En este momento nuestra cocina se encuentra cerrada. Nuestro horario de atención es de lunes a viernes de 10:00 am a 8:00 pm (sábados y domingos cerrado todo el día). ¡Te esperamos pronto!</p>
+    </div>
+
+    <!-- MODAL DE DETALLE Y COMPRA DEL POSTRE -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-card">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            
+            <div class="modal-header-info">
+                <img id="modalImg" src="" alt="Postre">
+                <div class="modal-title-area">
+                    <h2 id="modalTitle">Nombre del Postre</h2>
+                    <div class="price-badge-green" id="modalPriceBadge">S/ 0.00</div>
+                </div>
+            </div>
+
+            <p class="modal-description" id="modalDescription">Descripción corta del postre.</p>
+
+            <div class="delivery-notice-box">
+                <i class="fas fa-clock"></i> <strong>Garantía de Frescura:</strong> Elaboramos cada postre al momento. Al confirmar hoy, se entrega <u>mañana</u>.
+            </div>
+
+            <div class="form-section" id="orderFormSection">
+                <div class="form-group">
+                    <label>Cantidad:</label>
+                    <div class="quantity-control">
+                        <button class="qty-btn" onclick="changeQuantity(-1)">-</button>
+                        <span id="qtyValue" style="font-weight: 700; font-size: 1.1rem;">1</span>
+                        <button class="qty-btn" onclick="changeQuantity(1)">+</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="custName">Tu Nombre Completo:</label>
+                    <input type="text" id="custName" placeholder="Ej: Adrian Justin">
+                </div>
+
+                <div class="form-group">
+                    <label for="custPhone">Número de Celular:</label>
+                    <input type="tel" id="custPhone" placeholder="Ej: 987654321">
+                </div>
+
+                <div class="form-group">
+                    <label for="deliveryType">Tipo de Entrega:</label>
+                    <select id="deliveryType" onchange="updateTotal()">
+                        <option value="pickup">Recojo en tienda (Sin comisión extra)</option>
+                        <option value="delivery">Envío a Domicilio (Costo según tu distrito)</option>
+                    </select>
+                </div>
+
+                <div class="form-group delivery-fields" id="locationSearchGroup" style="display: none;">
+                    <label for="searchLocationInput">Busca tu distrito, provincia o región:</label>
+                    <div class="search-location-wrapper">
+                        <input type="text" id="searchLocationInput" placeholder="Ej: San Martín de Porres, Miraflores, Callao..." oninput="filterLocations(this.value)" autocomplete="off">
+                        <div class="location-suggestions" id="locationSuggestions"></div>
+                    </div>
+                </div>
+
+                <div class="form-group delivery-fields" id="addressGroup" style="display: none;">
+                    <label for="custAddress">Dirección y Referencia (Para el repartidor):</label>
+                    <input type="text" id="custAddress" placeholder="Ej: Av. Tomás Valle 1217, por las aduanas">
+                </div>
+
+                <div class="total-summary">
+                    <span>Total a pagar:</span>
+                    <span id="modalTotal" style="font-size: 1.2rem;">S/ 0.00</span>
+                </div>
+
+                <button class="btn-confirm-order" onclick="proceedToPayment()">Elegir el Pago</button>
+            </div>
+
+            <div id="paymentSelectionSection">
+                <h3 style="color: #005a43; font-size: 1rem; text-align: center;">Selecciona tu medio de pago:</h3>
+                
+                <div class="payment-options-grid">
+                    <div class="payment-card-option" id="yapeOption" onclick="selectPaymentMethod('yape')">
+                        <h4>Yape</h4>
+                        <i class="fas fa-qrcode" style="font-size: 1.5rem; color: #70cbb0;"></i>
+                    </div>
+                    <div class="payment-card-option" id="plinOption" onclick="selectPaymentMethod('plin')">
+                        <h4>Plin</h4>
+                        <i class="fas fa-qrcode" style="font-size: 1.5rem; color: #70cbb0;"></i>
+                    </div>
+                </div>
+
+                <div class="qr-display-box" id="yapeQrBox">
+                    <p>Escanea el código QR de <strong>Yape</strong> para cancelar:</p>
+                    <img src="Yape.jpeg" alt="QR Yape" id="imgYapeQr">
+                    <p style="font-size: 0.75rem; color: #666;">Titular: Susan Stefany Baila Anicama</p>
+                </div>
+
+                <div class="qr-display-box" id="plinQrBox">
+                    <p>Escanea el código QR de <strong>Plin</strong> para cancelar:</p>
+                    <img src="Plin.jpeg" alt="QR Plin" id="imgPlinQr">
+                    <p style="font-size: 0.75rem; color: #666;">Titular: Susan Stefany Baila Anicama</p>
+                </div>
+
+                <div class="screenshot-instruction-box" id="screenshotInstruction" style="display: none;">
+                    <i class="fas fa-camera-retro"></i>
+                    <div>
+                        <strong>¡Importante!</strong> Al hacer clic en el botón de abajo, se abrirá WhatsApp con tus datos. Por favor, <u>adjunta tu captura de pago</u> en el chat para validar tu pedido.
+                    </div>
+                </div>
+
+                <button class="btn-confirm-order" id="btnSendWhatsApp" onclick="sendOrderToWhatsApp()" style="display: none; background-color: #25d366;">
+                    <i class="fab fa-whatsapp"></i> Enviar Comprobante / Pedido por WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo-box">
+            <div class="badge-sun-logo"></div>
+            <span class="logo-text">Adriano Studio Gourmet</span>
+        </div>
+        <nav id="navbar">
+            <div class="nav-indicator" id="indicator"></div>
+            <button class="nav-btn active" onclick="switchTab(this, 'view-inicio')">INICIO</button>
+            <button class="nav-btn" onclick="switchTab(this, 'view-postres')">POSTRES</button>
+            <button class="nav-btn" onclick="switchTab(this, 'view-resenas')">RESEÑAS</button>
+            <button class="nav-btn" onclick="switchTab(this, 'view-informacion')">INFORMACIÓN</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- VISTA: INICIO -->
+        <div id="view-inicio" class="page-view active">
+            <div class="text-card">
+                <h1 class="title-main">
+                    <span class="green">"Creando momentos,</span><br>
+                    <span class="yellow">DULCES RECUERDOS"</span>
+                </h1>
+                <p>Creamos momentos especiales a través de sabores únicos, cuidando cada detalle para convertir cada postre en un recuerdo inolvidable.</p>
+            </div>
+
+            <div class="food-container">
+                <img src="images.jpg" class="food-item crop-pie" alt="Pie de Limón">
+                <img src="images (2).jpg" class="food-item crop-tiramisu" alt="Vasito Tiramisú">
+                <img src="images (3).jpg" class="food-item crop-flan" alt="Flan con Caramelo">
+                <img src="images (6).jpg" class="food-item crop-torta" alt="Torta de Fresa" style="left: 29%;">
+                <img src="images (5).jpg" class="food-item crop-macarons" alt="Macarons Menta">
+                <img src="images (4).jpg" class="food-item crop-brownie" alt="Brownie de Chocolate">
+
+                <img src="firulai (1).png" class="firulai-icon f-1"  alt="Flor">
+                <img src="firulai (2).png" class="firulai-icon f-2"  alt="Flor">
+                <img src="firulai (3).png" class="firulai-icon f-3"  alt="Flor">
+                <img src="firulai (4).png" class="firulai-icon f-4"  alt="Flor">
+                <img src="firulai (5).png" class="firulai-icon f-5"  alt="Flor">
+                <img src="firulai.png"     class="firulai-icon f-6"  alt="Flor">
+                <img src="firulai (1).png" class="firulai-icon f-7"  alt="Flor">
+                <img src="firulai (2).png" class="firulai-icon f-8"  alt="Flor">
+                <img src="firulai (3).png" class="firulai-icon f-9"  alt="Flor">
+                <img src="firulai (4).png" class="firulai-icon f-10" alt="Flor">
+                <img src="firulai (5).png" class="firulai-icon f-11" alt="Flor">
+                <img src="firulai.png"     class="firulai-icon f-12" alt="Flor">
+                <img src="firulai (1).png" class="firulai-icon f-13" alt="Flor">
+                <img src="firulai (2).png" class="firulai-icon f-14" alt="Flor">
+                <img src="firulai (3).png" class="firulai-icon f-15" alt="Flor">
+                <img src="firulai (4).png" class="firulai-icon f-16" alt="Flor">
+                <img src="firulai (5).png" class="firulai-icon f-17" alt="Flor">
+                <img src="firulai.png"     class="firulai-icon f-18" alt="Flor">
+                <img src="firulai (1).png" class="firulai-icon f-19" alt="Flor">
+                <img src="firulai (2).png" class="firulai-icon f-20" alt="Flor">
+
+                <div class="crop-badge-main">
+                    <img src="imagen (1).jpg" alt="Postre Oreo Gourmet">
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA: POSTRES -->
+        <div id="view-postres" class="page-view">
+            <div class="postres-container">
+                <h2 class="postres-title">Nuestra Carta de Postres</h2>
+                <div class="postres-grid">
+                    
+                    <div class="postre-card" onclick="openModal('Mousse de Mango', 8, 'alimento.jpg', 'Refrescantes vasitos con suave textura cremosa de mousse y una cobertura vibrante de trocitos de mango natural.')">
+                        <img src="alimento.jpg" alt="Mousse de Mango">
+                        <h3>Mousse de Mango</h3>
+                        <span class="price-badge-small">S/ 8.00</span>
+                    </div>
+
+                    <div class="postre-card" onclick="openModal('Pay de Oreo', 8, 'alimento 2.jpg', 'Crujiente base de galleta Oreo con un relleno cremoso y una cobertura irresistible de trozos de galleta.')">
+                        <img src="alimento 2.jpg" alt="Pay de Oreo">
+                        <h3>Pay de Oreo</h3>
+                        <span class="price-badge-small">S/ 8.00</span>
+                    </div>
+
+                    <div class="postre-card" onclick="openModal('Cheesecake de Fresas', 8, 'alimento 1.jpg', 'Delicioso cheesecake individual con una base crujiente y una cobertura de fresas frescas.')">
+                        <img src="alimento 1.jpg" alt="Cheesecake de Fresas">
+                        <h3>Cheesecake de Fresas</h3>
+                        <span class="price-badge-small">S/ 8.00</span>
+                    </div>
+
+                    <div class="postre-card" onclick="openModal('Arroz con Leche Especial', 8, 'alimento 3.jpg', 'Cremoso arroz con leche preparado a fuego lento con canela, clavo de olor y un toque de vainilla.')">
+                        <img src="alimento 3.jpg" alt="Arroz con Leche Especial">
+                        <h3>Arroz con Leche Especial</h3>
+                        <span class="price-badge-small">S/ 8.00</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA: RESEÑAS -->
+        <div id="view-resenas" class="page-view">
+            <div class="top-left-container">
+                <h2 class="section-title-left">Reseñas de Clientes</h2>
+
+                <div class="reviews-wrapper">
+                    <div class="review-form-card">
+                        <h3>¡Déjanos tu opinión sobre nuestros postres!</h3>
+                        
+                        <div class="review-inputs">
+                            <input type="text" id="reviewerName" placeholder="Tu nombre..." required>
+                        </div>
+
+                        <div class="rating-stars" id="starRating">
+                            <i class="fas fa-star" data-value="1"></i>
+                            <i class="fas fa-star" data-value="2"></i>
+                            <i class="fas fa-star" data-value="3"></i>
+                            <i class="fas fa-star" data-value="4"></i>
+                            <i class="fas fa-star" data-value="5"></i>
+                        </div>
+
+                        <textarea id="reviewText" class="review-textarea" placeholder="Escribe tu comentario aquí... ¿Qué postre probaste y qué tal estuvo?"></textarea>
+
+                        <div class="form-actions">
+                            <label class="file-upload-btn">
+                                <i class="fas fa-camera"></i> Subir foto del postre
+                                <input type="file" id="reviewImage" accept="image/*" onchange="previewFileName(this)">
+                            </label>
+                            <span class="file-name-preview" id="fileNamePreview"></span>
+                            <button class="btn-submit-review" onclick="addReview()">Publicar Reseña</button>
+                        </div>
+                    </div>
+
+                    <div class="reviews-feed" id="reviewsFeed">
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="user-info">
+                                    <div class="user-avatar">M</div>
+                                    <div class="user-name-date">
+                                        <h4>María Fernanda</h4>
+                                        <span>Hace 2 horas</span>
+                                    </div>
+                                </div>
+                                <div class="review-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <p class="review-body">¡El Pay de Oreo estuvo increíble! Muy suave y fresco. Definitivamente volveré a pedir para el cumpleaños de mi hermana.</p>
+                            <img src="alimento 2.jpg" class="review-photo" alt="Foto reseña">
+                        </div>
+
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="user-info">
+                                    <div class="user-avatar">C</div>
+                                    <div class="user-name-date">
+                                        <h4>Carlos Gómez</h4>
+                                        <span>Ayer</span>
+                                    </div>
+                                </div>
+                                <div class="review-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                            <p class="review-body">Muy buena atención y el cheesecake llegó en perfecto estado. Súper recomendado.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- VISTA: INFORMACIÓN -->
+        <div id="view-informacion" class="page-view">
+            <div class="top-left-container">
+                <h2 class="section-title-left">Detalles importantes</h2>
+
+                <div class="info-content">
+                    <div class="info-block">
+                        <h3>🕒 Horarios y Días de Atención</h3>
+                        <ul>
+                            <li><strong>Garantizada:</strong> Elaboramos cada postre al momento. Por ello, las entregas se realizan exclusivamente al día siguiente de confirmar tu compra.</li>
+                            <li><strong>Días y Horarios:</strong> Lunes a viernes de 10:00 am a 8:00 pm. Sábados y domingos cerrado todo el día.</li>
+                            <li><strong>Días de descanso:</strong> Cerramos los fines de semana y días feriados oficiales.</li>
+                            <li><strong>Nota:</strong> Si por algún inconveniente la tienda debe cerrar temporalmente, la pantalla de avisos se activará. Los pedidos ya confirmados se programarán contigo de forma interna.</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-block">
+                        <h3>🛵 Modalidad y Tarifas de Envío</h3>
+                        <ul>
+                            <li><strong>Recojo en tienda:</strong> Sin comisión extra (solo cancelas el costo de tu postre).</li>
+                            <li><strong>Envío a domicilio:</strong> Tarifa calculada de forma dinámica según la distancia desde nuestra base en el Callao / San Martín de Porres.</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-block">
+                        <h3>💳 Formas de Pago</h3>
+                        <ul>
+                            <li><strong>Modalidad:</strong> Para la seguridad de nuestros repartidores, todos los pedidos se cancelan por adelantado.</li>
+                            <li><strong>Medios digitales:</strong> Aceptamos exclusivamente Yape o Plin.</li>
+                            <li><strong>Restricciones:</strong> No aceptamos pago en efectivo contra entrega.</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-block">
+                        <h3>🔄 Política de Reembolso</h3>
+                        <ul>
+                            <li><strong>Condiciones generales:</strong> Si tu reembolso es aprobado, el dinero se devolverá directamente mediante Yape o Plin.</li>
+                            <li><strong>Procesamiento:</strong> Los reembolsos se procesarán dentro de las 24 horas.</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-block">
+                        <h3>📢 Atención al Cliente y Novedades</h3>
+                        <ul>
+                            <li><strong>Canal de contacto:</strong> Solo aceptaremos mensajes mediante texto por WhatsApp (este número no cuenta con servicio de recepción de llamadas de voz).</li>
+                            <li><strong>Promociones y redes:</strong> Te invitamos a estar atento a nuestras historias y publicaciones en Instagram y Facebook, donde compartimos descuentos especiales y sorpresas.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="main-footer">
+        <div class="footer-card">
+            <div class="social-links">
+                <a href="https://wa.me/51974453938" class="item-link" target="_blank">
+                    <i class="fab fa-whatsapp"></i> <u>974453938</u>
+                </a>
+                <a href="https://instagram.com/adriano.studio.gourmet" class="social-item" target="_blank">
+                    <i class="fab fa-instagram"></i> <u>adriano.studio.gourmet</u>
+                </a>
+                <a href="https://facebook.com/profile.php?id=61593227447862" class="social-item" target="_blank">
+                    <i class="fab fa-facebook-f"></i> <u>Adriano Studio Gourmet</u>
+                </a>
+            </div>
+            <div class="slogan-text">
+                "El arte de crear momentos"
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const MANTENIMIENTO_MANUAL = false; 
+
+        const FERIADOS_PERU = [
+            '01-01', '05-01', '06-07', '06-29', '07-23', '07-28', '07-29', 
+            '08-06', '08-30', '10-08', '11-01', '12-08', '12-09', '12-25'
+        ];
+
+        function checkMaintenance() {
+            const overlay = document.getElementById('maintenance-overlay');
+            const hoy = new Date();
+
+            const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+            const dia = String(hoy.getDate()).padStart(2, '0');
+            const fechaHoy = `${mes}-${dia}`;
+            
+            const esFeriado = FERIADOS_PERU.includes(fechaHoy);
+            
+            // Validación de días y horas (Sábados = 6, Domingos = 0)
+            const diaSemana = hoy.getDay();
+            const horaActual = hoy.getHours(); // Formato 24 horas (0 a 23)
+            
+            const esFinDeSemana = (diaSemana === 0 || diaSemana === 6);
+            const fueraDeHorario = (horaActual < 10 || horaActual >= 20);
+
+            if (MANTENIMIENTO_MANUAL || esFeriado || esFinDeSemana || fueraDeHorario) {
+                overlay.style.display = 'flex';
+                overlay.style.pointerEvents = 'all';
+            } else {
+                overlay.style.display = 'none';
+                overlay.style.pointerEvents = 'none';
+            }
+        }
+
+        function moveIndicator(element) {
+            const indicator = document.getElementById('indicator');
+            indicator.style.width = `${element.offsetWidth}px`;
+            indicator.style.left = `${element.offsetLeft}px`;
+        }
+
+        function switchTab(element, viewId) {
+            moveIndicator(element);
+
+            document.querySelectorAll('.page-view').forEach(view => {
+                view.classList.remove('active');
+            });
+
+            const targetView = document.getElementById(viewId);
+            if (targetView) {
+                targetView.classList.add('active');
+            }
+
+            const footer = document.getElementById('main-footer');
+            if (viewId === 'view-inicio') {
+                footer.classList.remove('hidden');
+            } else {
+                footer.classList.add('hidden');
+            }
+        }
+
+        const flatLocationList = [
+            { name: "Bellavista, Callao", fee: 7.00 },
+            { name: "Callao (Cercado)", fee: 7.00 },
+            { name: "Carmen de la Legua Reynoso, Callao", fee: 7.00 },
+            { name: "La Perla, Callao", fee: 8.00 },
+            { name: "La Punta, Callao", fee: 10.00 },
+            { name: "Mi Perú, Callao", fee: 14.00 },
+            { name: "Ventanilla, Callao", fee: 12.00 },
+            { name: "San Martín de Porres, Lima", fee: 6.00 },
+            { name: "Los Olivos, Lima", fee: 7.00 },
+            { name: "Independencia, Lima", fee: 8.00 },
+            { name: "San Miguel, Lima", fee: 8.00 },
+            { name: "Breña, Lima", fee: 9.00 },
+            { name: "Cercado de Lima, Lima", fee: 9.00 },
+            { name: "Pueblo Libre, Lima", fee: 9.00 },
+            { name: "Rímac, Lima", fee: 9.00 },
+            { name: "Comas, Lima", fee: 10.00 },
+            { name: "Jesús María, Lima", fee: 10.00 },
+            { name: "Lince, Lima", fee: 10.00 },
+            { name: "Magdalena del Mar, Lima", fee: 10.00 },
+            { name: "San Isidro, Lima", fee: 11.00 },
+            { name: "San Luis, Lima", fee: 11.00 },
+            { name: "Miraflores, Lima", fee: 12.00 },
+            { name: "Puente Piedra, Lima", fee: 12.00 },
+            { name: "San Borja, Lima", fee: 12.00 },
+            { name: "San Juan de Lurigancho, Lima", fee: 12.00 },
+            { name: "Barranco, Lima", fee: 13.00 },
+            { name: "Surquillo, Lima", fee: 13.00 },
+            { name: "La Molina, Lima", fee: 14.00 },
+            { name: "Ricardo Palma, Huarochirí", fee: 14.00 },
+            { name: "San Antonio, Huarochirí", fee: 14.00 },
+            { name: "Santa Cruz de Cocachacra, Huarochirí", fee: 14.00 },
+            { name: "Santa Eulalia, Huarochirí", fee: 14.00 },
+            { name: "San Juan de Miraflores, Lima", fee: 14.00 },
+            { name: "Santiago de Surco, Lima", fee: 14.00 },
+            { name: "Aucallama, Huaral", fee: 14.00 },
+            { name: "Chancay, Huaral", fee: 14.00 },
+            { name: "Huaral (Provincia)", fee: 14.00 },
+            { name: "Chorrillos, Lima", fee: 15.00 },
+            { name: "Villa El Salvador, Lima", fee: 15.00 },
+            { name: "Villa María del Triunfo, Lima", fee: 15.00 },
+            { name: "Barranca (Provincia)", fee: 15.00 },
+            { name: "Chilca, Cañete", fee: 15.00 },
+            { name: "Santa Rosa de Quives, Canta", fee: 15.00 }
+        ];
+
+        let currentPrice = 0;
+        let currentQuantity = 1;
+        let selectedDeliveryFee = 0;
+        let selectedLocationName = "";
+        let selectedPaymentType = "";
+        let currentProductTitle = "";
+        let finalCalculatedTotal = 0;
+
+        function openModal(title, price, imgUrl, description) {
+            currentProductTitle = title;
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalPriceBadge').textContent = `S/ ${price.toFixed(2)}`;
+            document.getElementById('modalImg').src = imgUrl;
+            document.getElementById('modalDescription').textContent = description;
+
+            currentPrice = price;
+            currentQuantity = 1;
+            selectedDeliveryFee = 0;
+            selectedLocationName = "";
+            selectedPaymentType = "";
+
+            document.getElementById('qtyValue').textContent = currentQuantity;
+            document.getElementById('deliveryType').value = 'pickup';
+            document.getElementById('searchLocationInput').value = '';
+            document.getElementById('custName').value = '';
+            document.getElementById('custPhone').value = '';
+            document.getElementById('custAddress').value = '';
+            document.getElementById('locationSuggestions').style.display = 'none';
+
+            document.getElementById('orderFormSection').style.display = 'flex';
+            document.getElementById('paymentSelectionSection').style.display = 'none';
+            document.getElementById('yapeOption').classList.remove('selected');
+            document.getElementById('plinOption').classList.remove('selected');
+            document.getElementById('yapeQrBox').style.display = 'none';
+            document.getElementById('plinQrBox').style.display = 'none';
+            document.getElementById('screenshotInstruction').style.display = 'none';
+            document.getElementById('btnSendWhatsApp').style.display = 'none';
+
+            updateTotal();
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        function changeQuantity(delta) {
+            if (currentQuantity + delta >= 1) {
+                currentQuantity += delta;
+                document.getElementById('qtyValue').textContent = currentQuantity;
+                updateTotal();
+            }
+        }
+
+        function filterLocations(query) {
+            const suggestionsBox = document.getElementById('locationSuggestions');
+            suggestionsBox.innerHTML = '';
+            
+            if (!query.trim()) {
+                suggestionsBox.style.display = 'none';
+                return;
+            }
+
+            const filtered = flatLocationList.filter(item => 
+                item.name.toLowerCase().includes(query.toLowerCase())
+            );
+
+            if (filtered.length > 0) {
+                suggestionsBox.style.display = 'block';
+                filtered.forEach(loc => {
+                    const div = document.createElement('div');
+                    div.className = 'location-suggestion-item';
+                    div.innerHTML = `<i class="fas fa-map-marker-alt" style="color:#005a43; margin-right:6px;"></i> ${loc.name} <span style="float:right; color:#666; font-size:0.75rem;">(Envío: S/ ${loc.fee.toFixed(2)})</span>`;
+                    div.onclick = () => {
+                        document.getElementById('searchLocationInput').value = loc.name;
+                        selectedLocationName = loc.name;
+                        selectedDeliveryFee = loc.fee;
+                        suggestionsBox.style.display = 'none';
+                        updateTotal();
+                    };
+                    suggestionsBox.appendChild(div);
+                });
+            } else {
+                const div = document.createElement('div');
+                div.className = 'location-suggestion-item';
+                div.textContent = "Zona genérica (Tarifa estándar S/ 10.00)";
+                div.onclick = () => {
+                    document.getElementById('searchLocationInput').value = query;
+                    selectedLocationName = query;
+                    selectedDeliveryFee = 10.00;
+                    suggestionsBox.style.display = 'none';
+                    updateTotal();
+                };
+                suggestionsBox.appendChild(div);
+                suggestionsBox.style.display = 'block';
+            }
+        }
+
+        function updateTotal() {
+            const deliverySelect = document.getElementById('deliveryType').value;
+            const locationSearchGroup = document.getElementById('locationSearchGroup');
+            const addressGroup = document.getElementById('addressGroup');
+
+            let total = currentPrice * currentQuantity;
+
+            if (deliverySelect === 'delivery') {
+                locationSearchGroup.style.display = 'flex';
+                addressGroup.style.display = 'flex';
+                total += selectedDeliveryFee;
+            } else {
+                locationSearchGroup.style.display = 'none';
+                addressGroup.style.display = 'none';
+                selectedDeliveryFee = 0;
+            }
+
+            finalCalculatedTotal = total;
+            document.getElementById('modalTotal').textContent = `S/ ${total.toFixed(2)}`;
+        }
+
+        function proceedToPayment() {
+            const name = document.getElementById('custName').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
+            const deliveryType = document.getElementById('deliveryType').value;
+            const locationInput = document.getElementById('searchLocationInput').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+
+            if (!name) {
+                alert('Por favor, ingresa tu nombre.');
+                return;
+            }
+
+            if (!phone) {
+                alert('Por favor, ingresa tu número de celular.');
+                return;
+            }
+
+            if (deliveryType === 'delivery') {
+                if (!locationInput) {
+                    alert('Por favor, busca y selecciona tu distrito o zona de entrega.');
+                    return;
+                }
+                if (!address) {
+                    alert('Por favor, ingresa tu dirección exacta y referencia para el repartidor.');
+                    return;
+                }
+            }
+
+            document.getElementById('orderFormSection').style.display = 'none';
+            document.getElementById('paymentSelectionSection').style.display = 'flex';
+        }
+
+        function selectPaymentMethod(method) {
+            selectedPaymentType = method;
+            const yapeOpt = document.getElementById('yapeOption');
+            const plinOpt = document.getElementById('plinOption');
+            const yapeBox = document.getElementById('yapeQrBox');
+            const plinBox = document.getElementById('plinQrBox');
+            const instructionBox = document.getElementById('screenshotInstruction');
+            const btnWhatsApp = document.getElementById('btnSendWhatsApp');
+
+            if (method === 'yape') {
+                yapeOpt.classList.add('selected');
+                plinOpt.classList.remove('selected');
+                yapeBox.style.display = 'flex';
+                plinBox.style.display = 'none';
+            } else {
+                plinOpt.classList.add('selected');
+                yapeOpt.classList.remove('selected');
+                plinBox.style.display = 'flex';
+                yapeBox.style.display = 'none';
+            }
+
+            instructionBox.style.display = 'flex';
+            btnWhatsApp.style.display = 'block';
+        }
+
+        function sendOrderToWhatsApp() {
+            const name = document.getElementById('custName').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
+            const deliveryType = document.getElementById('deliveryType').value;
+            const locationInput = document.getElementById('searchLocationInput').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+
+            let entregaTexto = deliveryType === 'pickup' ? "Recojo en tienda" : `Envío a domicilio (${locationInput} - ${address})`;
+
+            let textoPlano = `Hola, quiero hacer un pedido en Adriano Studio Gourmet:\n\n` +
+                             `Postre: ${currentProductTitle}\n` +
+                             `Cantidad: ${currentQuantity}\n` +
+                             `Cliente: ${name}\n` +
+                             `Celular: ${phone}\n` +
+                             `Entrega: ${entregaTexto}\n` +
+                             `Método de Pago: ${selectedPaymentType.toUpperCase()}\n` +
+                             `Total: S/ ${finalCalculatedTotal.toFixed(2)}\n\n` +
+                             `Adjunto mi captura de pago. Quedo atento.`;
+
+            const numeroWhatsApp = "51974453938";
+            const urlWp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(textoPlano)}`;
+            
+            window.open(urlWp, '_blank');
+            closeModal();
+        }
+
+        window.addEventListener('load', () => {
+            checkMaintenance();
+            const activeBtn = document.querySelector('.nav-btn.active');
+            if (activeBtn) moveIndicator(activeBtn);
+        });
+
+        let selectedRating = 0;
+        const stars = document.querySelectorAll('#starRating i');
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                selectedRating = parseInt(this.getAttribute('data-value'));
+                updateStarsDisplay(selectedRating);
+            });
+        });
+
+        function updateStarsDisplay(rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function previewFileName(input) {
+            const fileNameSpan = document.getElementById('fileNamePreview');
+            if (input.files && input.files[0]) {
+                fileNameSpan.textContent = input.files[0].name;
+            } else {
+                fileNameSpan.textContent = '';
+            }
+        }
+
+        function addReview() {
+            const nameInput = document.getElementById('reviewerName');
+            const textInput = document.getElementById('reviewText');
+            const fileInput = document.getElementById('reviewImage');
+
+            const name = nameInput.value.trim();
+            const text = textInput.value.trim();
+
+            if (!name) {
+                alert('Por favor, ingresa tu nombre.');
+                return;
+            }
+            if (selectedRating === 0) {
+                alert('Por favor, selecciona una puntuación de 1 a 5 estrellas.');
+                return;
+            }
+            if (!text) {
+                alert('Por favor, escribe tu reseña.');
+                return;
+            }
+
+            const feed = document.getElementById('reviewsFeed');
+            const reviewCard = document.createElement('div');
+            reviewCard.className = 'review-card';
+
+            let starsHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= selectedRating) {
+                    starsHTML += '<i class="fas fa-star"></i>';
+                } else {
+                    starsHTML += '<i class="far fa-star"></i>';
+                }
+            }
+
+            const initialLetter = name.charAt(0).toUpperCase();
+
+            let imageHTML = '';
+            if (fileInput.files && fileInput.files[0]) {
+                const imgURL = URL.createObjectURL(fileInput.files[0]);
+                imageHTML = `<img src="${imgURL}" class="review-photo" alt="Foto de reseña">`;
+            }
+
+            reviewCard.innerHTML = `
+                <div class="review-header">
+                    <div class="user-info">
+                        <div class="user-avatar">${initialLetter}</div>
+                        <div class="user-name-date">
+                            <h4>${name}</h4>
+                            <span>Hace un momento</span>
+                        </div>
+                    </div>
+                    <div class="review-stars">
+                        ${starsHTML}
+                    </div>
+                </div>
+                <p class="review-body">${text}</p>
+                ${imageHTML}
+            `;
+
+            feed.insertBefore(reviewCard, feed.firstChild);
+
+            nameInput.value = '';
+            textInput.value = '';
+            fileInput.value = '';
+            document.getElementById('fileNamePreview').textContent = '';
+            selectedRating = 0;
+            updateStarsDisplay(0);
+        }
+    </script>
+</body>
+</html>
