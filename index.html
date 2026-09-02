@@ -55,14 +55,14 @@
             color: #003d2d;
         }
 
-        /* --- HEADER (AJUSTADO PARA BAJAR EL LOGO) --- */
+        /* --- HEADER --- */
         header {
             height: 110px;
             background-color: #70cbb0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 40px 0 40px; /* Padding superior para separar del borde de la pantalla */
+            padding: 15px 40px 0 40px;
             flex-shrink: 0;
         }
 
@@ -76,7 +76,6 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        /* LOGO CENTRADO Y CON ESPACIO CORRECTO */
         .badge-sun-logo {
             width: 48px;
             height: 48px;
@@ -294,6 +293,7 @@
         }
 
         .postre-card {
+            position: relative;
             background: #ffffff;
             padding: 20px;
             border-radius: 20px;
@@ -302,6 +302,7 @@
             width: 210px;
             cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden;
         }
 
         .postre-card:hover {
@@ -309,12 +310,18 @@
             box-shadow: 0 15px 25px rgba(0,0,0,0.15);
         }
 
-        .postre-card img {
+        .postre-img-container {
+            position: relative;
             width: 100%;
             height: 150px;
+            margin-bottom: 12px;
+        }
+
+        .postre-card img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             border-radius: 15px;
-            margin-bottom: 12px;
         }
 
         .postre-card h3 {
@@ -331,6 +338,67 @@
             font-weight: 700;
             font-size: 0.9rem;
             display: inline-block;
+        }
+
+        /* --- ESTILOS PARA PRODUCTOS BLOQUEADOS (OVERLAY GLOBAL) --- */
+        .postre-card.locked {
+            cursor: pointer;
+            background: #ffffff;
+        }
+
+        .postre-card.locked:hover {
+            transform: none;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .lock-overlay-center {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Centra perfectamente el candado en el medio */
+            z-index: 10;
+            color: #ffffff;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .lock-overlay-center i {
+            font-size: 3rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
+
+        /* El mensaje de aviso flotante al hacer clic */
+        .lock-popup-msg {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(0, 90, 67, 0.95);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-align: center;
+            width: 90%;
+            z-index: 20;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border: 1px solid #70cbb0;
+        }
+
+        .lock-popup-msg.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
         }
 
         /* --- MODAL DE DETALLE / PEDIDO --- */
@@ -928,7 +996,7 @@
             <span class="close-modal" onclick="closeModal()">&times;</span>
             
             <div class="modal-header-info">
-                <img id="modalImg" src="" alt="Postre">
+                <img id="modalImg" alt="Postre">
                 <div class="modal-title-area">
                     <h2 id="modalTitle">Nombre del Postre</h2>
                     <div class="price-badge-green" id="modalPriceBadge">S/ 0.00</div>
@@ -1096,28 +1164,50 @@
                 <h2 class="postres-title">Nuestra Carta de Postres</h2>
                 <div class="postres-grid">
                     
+                    <!-- Mousse de Mango (Disponible) -->
                     <div class="postre-card" onclick="openModal('Mousse de Mango', 8, 'alimento.jpg', 'Refrescantes vasitos con suave textura cremosa de mousse y una cobertura vibrante de trocitos de mango natural.')">
-                        <img src="alimento.jpg" alt="Mousse de Mango">
+                        <div class="postre-img-container">
+                            <img src="alimento.jpg" alt="Mousse de Mango">
+                        </div>
                         <h3>Mousse de Mango</h3>
                         <span class="price-badge-small">S/ 8.00</span>
                     </div>
 
+                    <!-- Pay de Oreo (Disponible) -->
                     <div class="postre-card" onclick="openModal('Pay de Oreo', 8, 'alimento 2.jpg', 'Crujiente base de galleta Oreo con un relleno cremoso y una cobertura irresistible de trozos de galleta.')">
-                        <img src="alimento 2.jpg" alt="Pay de Oreo">
+                        <div class="postre-img-container">
+                            <img src="alimento 2.jpg" alt="Pay de Oreo">
+                        </div>
                         <h3>Pay de Oreo</h3>
                         <span class="price-badge-small">S/ 8.00</span>
                     </div>
 
-                    <div class="postre-card" onclick="openModal('Cheesecake de Fresas', 8, 'alimento 1.jpg', 'Delicioso cheesecake individual con una base crujiente y una cobertura de fresas frescas.')">
-                        <img src="alimento 1.jpg" alt="Cheesecake de Fresas">
+                    <!-- Cheesecake de Fresas (Bloqueado) -->
+                    <div class="postre-card locked" onclick="showLockedAlert(this)">
+                        <div class="postre-img-container">
+                            <img src="alimento 1.jpg" alt="Cheesecake de Fresas">
+                        </div>
                         <h3>Cheesecake de Fresas</h3>
-                        <span class="price-badge-small">S/ 8.00</span>
+                        <span class="price-badge-small" style="background-color: #888;">S/ 8.00</span>
+                        
+                        <div class="lock-overlay-center">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="lock-popup-msg">Este producto no estará disponible hasta la próxima semana</div>
                     </div>
 
-                    <div class="postre-card" onclick="openModal('Arroz con Leche Especial', 8, 'alimento 3.jpg', 'Cremoso arroz con leche preparado a fuego lento con canela, clavo de olor y un toque de vainilla.')">
-                        <img src="alimento 3.jpg" alt="Arroz con Leche Especial">
+                    <!-- Arroz con Leche Especial (Bloqueado) -->
+                    <div class="postre-card locked" onclick="showLockedAlert(this)">
+                        <div class="postre-img-container">
+                            <img src="alimento 3.jpg" alt="Arroz con Leche Especial">
+                        </div>
                         <h3>Arroz con Leche Especial</h3>
-                        <span class="price-badge-small">S/ 8.00</span>
+                        <span class="price-badge-small" style="background-color: #888;">S/ 8.00</span>
+                        
+                        <div class="lock-overlay-center">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="lock-popup-msg">Este producto no estará disponible hasta la próxima semana</div>
                     </div>
 
                 </div>
@@ -1293,9 +1383,8 @@
             
             const esFeriado = FERIADOS_PERU.includes(fechaHoy);
             
-            // Validación de días y horas (Sábados = 6, Domingos = 0)
             const diaSemana = hoy.getDay();
-            const horaActual = hoy.getHours(); // Formato 24 horas (0 a 23)
+            const horaActual = hoy.getHours();
             
             const esFinDeSemana = (diaSemana === 0 || diaSemana === 6);
             const fueraDeHorario = (horaActual < 10 || horaActual >= 20);
@@ -1333,6 +1422,27 @@
             } else {
                 footer.classList.add('hidden');
             }
+        }
+
+        // Función para mostrar temporalmente el mensaje solo al hacer clic en un postre bloqueado
+        let alertTimeout = null;
+        function showLockedAlert(cardElement) {
+            const popup = cardElement.querySelector('.lock-popup-msg');
+            
+            // Si ya hay un temporizador activo, lo limpiamos para que no se encime
+            if (alertTimeout) {
+                clearTimeout(alertTimeout);
+            }
+
+            // Ocultamos de otros por si acaso y mostramos en este
+            document.querySelectorAll('.lock-popup-msg').forEach(el => el.classList.remove('show'));
+            
+            popup.classList.add('show');
+
+            // Se oculta automáticamente después de 3.5 segundos
+            alertTimeout = setTimeout(() => {
+                popup.classList.remove('show');
+            }, 3500);
         }
 
         const flatLocationList = [
