@@ -27,11 +27,11 @@
             overflow-x: hidden;
         }
 
-        /* HEADER Y NAVEGACIÓN PERFECTA (5 BOTONES) */
+        /* HEADER Y NAVEGACIÓN */
         header {
             width: 100%;
             background-color: #0b3b24;
-            padding: 12px 10px;
+            padding: 12px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -44,13 +44,13 @@
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 10px;
+            gap: 10px;
+            margin-bottom: 12px;
         }
 
         .logo-container img {
-            width: 38px;
-            height: 38px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #daf2e5;
@@ -59,19 +59,18 @@
         .logo-container h1 {
             font-family: 'Shrikhand', cursive;
             color: #ffffff;
-            font-size: 1.15rem;
+            font-size: 1.3rem;
             letter-spacing: 0.5px;
         }
 
-        /* Menú optimizado para 5 opciones */
         nav {
             background-color: #e6c887;
-            padding: 4px;
+            padding: 5px;
             border-radius: 20px;
             display: flex;
-            gap: 3px;
+            gap: 4px;
             width: 100%;
-            max-width: 380px;
+            max-width: 420px;
             justify-content: space-between;
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
         }
@@ -79,10 +78,10 @@
         .nav-btn {
             background: transparent;
             border: none;
-            padding: 6px 6px;
+            padding: 7px 8px;
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
-            font-size: 0.62rem;
+            font-size: 0.68rem;
             color: #5c4014;
             cursor: pointer;
             border-radius: 15px;
@@ -101,9 +100,9 @@
         /* CONTENEDOR PRINCIPAL */
         .main-container {
             width: 100%;
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
-            padding: 15px;
+            padding: 20px;
         }
 
         .section {
@@ -120,23 +119,25 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* SECCIÓN INICIO (CON LAS MEJORES IMÁGENES Y FLORES) */
+        /* SECCIÓN INICIO - DISEÑO FLOTANTE PERFECTO PARA PC Y MÓVIL */
         .hero-card {
             background: #ffffff;
-            border-radius: 20px;
-            padding: 20px 15px;
+            border-radius: 22px;
+            padding: 25px 20px;
             text-align: center;
             box-shadow: 0 8px 20px rgba(11, 59, 36, 0.08);
-            margin-bottom: 12px;
+            margin-bottom: 20px;
             border: 2px solid rgba(230, 200, 135, 0.3);
+            position: relative;
+            z-index: 5;
         }
 
         .hero-card h2 {
             font-family: 'Shrikhand', cursive;
             color: #0b3b24;
-            font-size: 1.35rem;
+            font-size: 1.5rem;
             line-height: 1.3;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .hero-card h2 span {
@@ -144,23 +145,23 @@
         }
 
         .hero-card p {
-            font-size: 0.82rem;
+            font-size: 0.9rem;
             color: #2c5e45;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
-        /* Galería flotante equilibrada con toque floral de fondo */
+        /* Galería flotante estructurada */
         .floating-gallery {
             position: relative;
             width: 100%;
-            height: 220px;
-            margin-top: 5px;
+            height: 320px;
+            margin: 10px auto 0 auto;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-image: radial-gradient(rgba(11, 59, 36, 0.05) 15%, transparent 16%);
-            background-size: 30px 30px;
-            border-radius: 20px;
+            background-image: radial-gradient(rgba(11, 59, 36, 0.06) 15%, transparent 16%);
+            background-size: 35px 35px;
+            border-radius: 25px;
         }
 
         .floating-img {
@@ -168,12 +169,13 @@
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid #ffffff;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
         }
 
+        /* Posiciones exactas para PC */
         .img-main {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             z-index: 3;
             top: 50%;
             left: 50%;
@@ -181,34 +183,34 @@
         }
 
         .img-1 {
-            width: 60px;
-            height: 60px;
-            top: 15px;
-            left: 18%;
-            z-index: 2;
-        }
-
-        .img-2 {
-            width: 65px;
-            height: 65px;
-            top: 15px;
-            right: 18%;
-            z-index: 2;
-        }
-
-        .img-3 {
-            width: 60px;
-            height: 60px;
-            bottom: 15px;
+            width: 75px;
+            height: 75px;
+            top: 25px;
             left: 22%;
             z-index: 2;
         }
 
+        .img-2 {
+            width: 80px;
+            height: 80px;
+            top: 25px;
+            right: 22%;
+            z-index: 2;
+        }
+
+        .img-3 {
+            width: 75px;
+            height: 75px;
+            bottom: 25px;
+            left: 26%;
+            z-index: 2;
+        }
+
         .img-4 {
-            width: 55px;
-            height: 55px;
-            bottom: 15px;
-            right: 24%;
+            width: 70px;
+            height: 70px;
+            bottom: 25px;
+            right: 28%;
             z-index: 2;
         }
 
@@ -217,22 +219,22 @@
             text-align: center;
             font-family: 'Shrikhand', cursive;
             color: #0b3b24;
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             margin-bottom: 20px;
             text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
         }
 
-        /* SECCIÓN POSTRES (CARTA) */
+        /* SECCIÓN POSTRES */
         .catalog-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 15px;
         }
 
         .product-card {
             background: #ffffff;
             border-radius: 18px;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
             box-shadow: 0 6px 15px rgba(11, 59, 36, 0.08);
             display: flex;
@@ -242,14 +244,14 @@
 
         .product-card img {
             width: 100%;
-            height: 100px;
+            height: 120px;
             object-fit: cover;
             border-radius: 12px;
             margin-bottom: 8px;
         }
 
         .product-card h3 {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 700;
             color: #0b3b24;
             margin-bottom: 6px;
@@ -258,9 +260,9 @@
         .price-tag {
             background-color: #0b3b24;
             color: #ffffff;
-            padding: 5px 8px;
+            padding: 6px 10px;
             border-radius: 12px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 700;
             display: inline-block;
             margin: 0 auto;
@@ -270,29 +272,29 @@
         .review-form-card {
             background: #ffffff;
             border-radius: 18px;
-            padding: 18px;
+            padding: 20px;
             box-shadow: 0 6px 15px rgba(11, 59, 36, 0.08);
             margin-bottom: 20px;
         }
 
         .review-form-card h3 {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: #0b3b24;
             margin-bottom: 12px;
             font-family: 'Shrikhand', cursive;
         }
 
         .form-group {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .form-group input, .form-group textarea {
             width: 100%;
-            padding: 9px 12px;
+            padding: 10px 14px;
             border: 2px solid #daf2e5;
             border-radius: 10px;
             font-family: 'Poppins', sans-serif;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             outline: none;
             transition: border-color 0.3s;
         }
@@ -303,23 +305,23 @@
 
         .form-group textarea {
             resize: none;
-            height: 70px;
+            height: 80px;
         }
 
         .file-upload-btn {
             display: inline-block;
-            padding: 7px 10px;
+            padding: 8px 12px;
             background-color: #daf2e5;
             color: #0b3b24;
             border-radius: 8px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
         }
 
         .file-name {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: #555;
             margin-bottom: 8px;
             display: block;
@@ -328,7 +330,7 @@
         .star-rating {
             display: flex;
             gap: 6px;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             color: #ccc;
             cursor: pointer;
             margin-bottom: 12px;
@@ -343,10 +345,10 @@
             color: #ffffff;
             border: none;
             width: 100%;
-            padding: 9px;
+            padding: 10px;
             border-radius: 10px;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: background 0.3s;
         }
@@ -364,7 +366,7 @@
         .review-card {
             background: #ffffff;
             border-radius: 18px;
-            padding: 12px;
+            padding: 15px;
             box-shadow: 0 4px 10px rgba(11, 59, 36, 0.05);
         }
 
@@ -376,60 +378,60 @@
         }
 
         .review-header h4 {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: #0b3b24;
         }
 
         .review-header span {
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: #777;
         }
 
         .review-stars {
             color: #f1c40f;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             margin-bottom: 6px;
         }
 
         .review-body {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: #333;
-            line-height: 1.4;
+            line-height: 1.5;
             margin-bottom: 8px;
         }
 
         .review-img {
             width: 100%;
-            max-height: 150px;
+            max-height: 180px;
             object-fit: cover;
             border-radius: 10px;
             margin-top: 6px;
         }
 
-        /* SECCIÓN INFORMACIÓN RESTAURADA */
+        /* INFORMACIÓN */
         .info-content-card {
             background: #ffffff;
             border-radius: 18px;
-            padding: 20px;
+            padding: 22px;
             box-shadow: 0 6px 15px rgba(11, 59, 36, 0.08);
             margin-bottom: 15px;
-            line-height: 1.6;
-            font-size: 0.85rem;
+            line-height: 1.7;
+            font-size: 0.9rem;
             color: #2c5e45;
         }
 
         .info-content-card h3 {
             font-family: 'Shrikhand', cursive;
             color: #0b3b24;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
         }
 
-        /* SECCIÓN CONTACTOS INDependiente */
+        /* CONTACTOS */
         .contact-card {
             background: #ffffff;
             border-radius: 18px;
-            padding: 18px;
+            padding: 22px;
             text-align: center;
             box-shadow: 0 6px 15px rgba(11, 59, 36, 0.08);
             margin-bottom: 15px;
@@ -438,28 +440,28 @@
         .contact-card h3 {
             font-family: 'Shrikhand', cursive;
             color: #0b3b24;
-            font-size: 1.2rem;
-            margin-bottom: 12px;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
         }
 
         .social-links {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .social-btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             background-color: #daf2e5;
             color: #0b3b24;
-            padding: 10px;
+            padding: 12px;
             border-radius: 12px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             transition: background 0.3s;
         }
 
@@ -468,16 +470,28 @@
         }
 
         .social-btn i {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
 
         .brand-slogan {
             text-align: center;
             font-family: 'Dyalight', cursive;
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: #0b3b24;
-            margin-top: 15px;
+            margin-top: 20px;
             margin-bottom: 10px;
+        }
+
+        /* RESPONSIVE PARA CELULARES PEQUEÑOS */
+        @media (max-width: 480px) {
+            .floating-gallery {
+                height: 230px;
+            }
+            .img-main { width: 95px; height: 95px; }
+            .img-1 { width: 55px; height: 55px; top: 15px; left: 15%; }
+            .img-2 { width: 60px; height: 60px; top: 15px; right: 15%; }
+            .img-3 { width: 55px; height: 55px; bottom: 15px; left: 18%; }
+            .img-4 { width: 50px; height: 50px; bottom: 15px; right: 18%; }
         }
     </style>
 </head>
@@ -576,12 +590,12 @@
             <div class="reviews-feed" id="reviewsFeed"></div>
         </div>
 
-        <!-- SECCIÓN INFORMACIÓN (Restaurada con todo el contenido inicial) -->
+        <!-- SECCIÓN INFORMACIÓN -->
         <div id="informacion" class="section">
             <h2 class="section-title">Sobre Nosotros</h2>
             <div class="info-content-card">
                 <h3>Adriano Studio Gourmet</h3>
-                <p>Somos un espacio dedicado a la repostería artesanal de alta calidad. Cada uno de nuestros postres es elaborados con ingredientes selectos, pasión y dedicación absoluta para endulzar tus días más importantes y celebraciones familiares.</p>
+                <p>Somos un espacio dedicado a la repostería artesanal de alta calidad. Cada uno de nuestros postres es elaborado con ingredientes selectos, pasión y dedicación absoluta para endulzar tus días más importantes y celebraciones familiares.</p>
                 <br>
                 <p>Nos enorgullece cuidar cada detalle visual y de sabor, convirtiendo un simple postre en una experiencia memorable para ti y tus seres queridos.</p>
             </div>
@@ -590,7 +604,7 @@
             </div>
         </div>
 
-        <!-- SECCIÓN CONTACTOS (Nueva pestaña específica) -->
+        <!-- SECCIÓN CONTACTOS -->
         <div id="contactos" class="section">
             <h2 class="section-title">Contáctanos</h2>
             <div class="contact-card">
@@ -659,14 +673,10 @@
         reviewForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
-            const name = document.getElementById('clientName').value;
-            const text = document.getElementById('clientText').value;
-            const file = fileInput.files[0];
-            
             let starsHTML = '';
             let ratingToUse = selectedRating > 0 ? selectedRating : 5;
             for(let i = 0; i < 5; i++) {
-                if(i < ratingToUser) {
+                if(i < ratingToUse) {
                     starsHTML += '<i class="fas fa-star"></i>';
                 } else {
                     starsHTML += '<i class="far fa-star"></i>';
@@ -674,6 +684,7 @@
             }
 
             let imageHTML = '';
+            const file = fileInput.files[0];
             if(file) {
                 const imageUrl = URL.createObjectURL(file);
                 imageHTML = `<img src="${imageUrl}" class="review-img" alt="Foto del cliente">`;
@@ -683,13 +694,13 @@
             reviewCard.classList.add('review-card');
             reviewCard.innerHTML = `
                 <div class="review-header">
-                    <h4>${name}</h4>
+                    <h4>${document.getElementById('clientName').value}</h4>
                     <span>Hace un momento</span>
                 </div>
                 <div class="review-stars">
                     ${starsHTML}
                 </div>
-                <p class="review-body">${text}</p>
+                <p class="review-body">${document.getElementById('clientText').value}</p>
                 ${imageHTML}
             `;
 
