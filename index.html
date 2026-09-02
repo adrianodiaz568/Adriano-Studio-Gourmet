@@ -912,6 +912,82 @@
             color: #005a43;
             font-weight: bold;
         }
+
+        /* ======================================================== */
+        /* --- BLOQUE NUEVO: ADAPTACIÓN RESPONSIVA PARA CELULARES --- */
+        /* ======================================================== */
+        @media screen and (max-width: 768px) {
+            header {
+                padding: 15px 15px 0 15px;
+                flex-direction: column;
+                height: auto;
+                gap: 10px;
+            }
+
+            .logo-box {
+                padding: 6px 15px 6px 6px;
+            }
+
+            .logo-text {
+                font-size: 1.1rem;
+            }
+
+            nav {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            nav button {
+                padding: 6px 12px;
+                font-size: 0.75rem;
+            }
+
+            main {
+                padding: 15px 20px;
+            }
+
+            .page-view {
+                grid-template-columns: 100% !important;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .text-card {
+                padding: 30px 20px;
+                border-radius: 30px;
+            }
+
+            .title-main {
+                font-size: 1.6rem;
+            }
+
+            .food-container {
+                height: 380px;
+                margin-top: 10px;
+            }
+
+            .postres-grid {
+                justify-content: center;
+            }
+
+            .footer-card {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+                padding: 15px 20px;
+                border-radius: 25px;
+            }
+
+            .social-links {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .slogan-text {
+                font-size: 1.4rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1293,9 +1369,8 @@
             
             const esFeriado = FERIADOS_PERU.includes(fechaHoy);
             
-            // Validación de días y horas (Sábados = 6, Domingos = 0)
             const diaSemana = hoy.getDay();
-            const horaActual = hoy.getHours(); // Formato 24 horas (0 a 23)
+            const horaActual = hoy.getHours();
             
             const esFinDeSemana = (diaSemana === 0 || diaSemana === 6);
             const fueraDeHorario = (horaActual < 10 || horaActual >= 20);
