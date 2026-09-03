@@ -987,7 +987,7 @@
     <!-- OVERLAY DE MANTENIMIENTO -->
     <div id="maintenance-overlay">
         <h1>¡Tienda pausada por hoy! 🍰</h1>
-        <p>En este momento nuestra cocina se encuentra cerrada. Nuestro horario de atención es de lunes a viernes de 10:00 am a 8:00 pm (sábados y domingos cerrado todo el día). ¡Te esperamos pronto!</p>
+        <p>En este momento nuestra cocina se encuentra cerrada. Nuestro horario de atención es de lunes a viernes de 10:00 am a 9:00 pm (sábados y domingos cerrado todo el día). ¡Te esperamos pronto!</p>
     </div>
 
     <!-- MODAL DE DETALLE Y COMPRA DEL POSTRE -->
@@ -1303,7 +1303,7 @@
                         <h3>🕒 Horarios y Días de Atención</h3>
                         <ul>
                             <li><strong>Garantizada:</strong> Elaboramos cada postre al momento. Por ello, las entregas se realizan exclusivamente al día siguiente de confirmar tu compra.</li>
-                            <li><strong>Días y Horarios:</strong> Lunes a viernes de 10:00 am a 8:00 pm. Sábados y domingos cerrado todo el día.</li>
+                            <li><strong>Días y Horarios:</strong> Lunes a viernes de 10:00 am a 9:00 pm. Sábados y domingos cerrado todo el día.</li>
                             <li><strong>Días de descanso:</strong> Cerramos los fines de semana y días feriados oficiales.</li>
                             <li><strong>Nota:</strong> Si por algún inconveniente la tienda debe cerrar temporalmente, la pantalla de avisos se activará. Los pedidos ya confirmados se programarán contigo de forma interna.</li>
                         </ul>
@@ -1387,7 +1387,7 @@
             const horaActual = hoy.getHours();
             
             const esFinDeSemana = (diaSemana === 0 || diaSemana === 6);
-            const fueraDeHorario = (horaActual < 10 || horaActual >= 20);
+            const fueraDeHorario = (horaActual < 10 || horaActual >= 21);
 
             if (MANTENIMIENTO_MANUAL || esFeriado || esFinDeSemana || fueraDeHorario) {
                 overlay.style.display = 'flex';
